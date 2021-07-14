@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>25 paskaita</title>
+</head>
+
+<style>
+    .zalia {
+        background-color: green;
+    }
+</style>
+<body>
+
+    <input type="text" id="sk" name="sk" value="10">
+    <input type="text" id="sk1" name="sk1" value="10">
+
+    <button id="sudetis">Sudetis</button>
+    <button id="atimtis">Atimtis</button>
+    <button id="daugyba">Daugyba</button>
+    <button id="dalyba">Dalyba</button>
+    <button id="saknis">Saknis</button>
+    <button id="issaugok">Issaugok reiksmes</button>
+    <button id="atmintis">Atminties rezimas</button>
+    
+    <div id="rezultatas">
+
+    </div>
+
+    <div id="skaiciai-atmintyje">
+        Atmintyje skaiciai: 0 0 <br>
+    </div>
+
+    <div id="statusas">
+        Atminties rezimas isjungtas
+    </div>
+
+    <script>
+        "use strict";
+
+        // kuriamasskaiciuotuvas, 
+        // kuris gali atimti, sudeti, sudauginti, padalinti, istraukti sakni
+
+        // 0 todel kad turima atmintis
+        // susikuriamas objektas
+
+        // skaiciuotuvas gali tureti kintamaji rezimas.
+        // rezimas reiksmes gali buti tiesa arba melas
+        // tiesa- skaiciuotuvas veikia iprastai, melas- skaiciuotuvas ima atminties reiksmes
+
+        var skaiciuotuvas= {
+            a:0, // paimti is input 
+            b:0, // paimti is input 
+            rezultatas:0, 
+            rezimas: true,
+            //metodai
+
+            sudetis: function(sk,sk1) {
+
+                if(this.rezimas==true) {
+                    this.rezultatas= sk + sk1;
+                }else {
+                    this.rezultatas=this.a+this.b;
+                }
+                
+                return this.rezultatas; 
+            },
+
+            sudetisAtmintis: function() {
+                this.rezultatas= sk + sk1;
+                return this.rezultatas; 
+            },
+
+            atimtis: function(sk,sk1) {
+
+                if(this.rezimas==true) {
+                    this.rezultatas= sk -sk1;
+                }else {
+                    this.rezultatas=this.a-this.b;
+                }
+                
+                return this.rezultatas; 
+            },
+
+            sandauga: function(sk,sk1) {
+
+                if(this.rezimas==true) {
+                    this.rezultatas= sk * sk1;
+                } else {
+                    this.rezultatas=this.a * this.b;
+                }
+                
+                return this.rezultatas; 
+            },
+
+            dalyba: function(sk,sk1) {
+
+                if(this.rezimas==true) {
+                    this.rezultatas= sk / sk1;
+                } else {
+                    this.rezultatas=this.a/this.b;
+                }
+                
+                return this.rezultatas; 
+            },
+
+            saknis: function(sk,sk1) {
+
+                if(this.rezimas==true) {
+                    this.rezultatas= Math.sqrt(this.a);
+                } else {
+                    this.rezultatas=Math.sqrt(this.a);
+                }
+                
+                return this.rezultatas; 
+            },
+
+            // objekto vidines reiksmes- prilyginamos skaiciams 
+            issaugok: function(sk,sk1) {
+                this.a=sk;
+                this.b=sk1;
+            },
+
+            //pakeicia rezimo reiksme i priesinga jam 
+            atmintis: function(){
+                this.rezimas= !this.rezimas; //!- priesinga reiksme
+            }
+
+        };
+
+
+        document.querySelector("#sudetis").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        var isvedimoElementas = document.querySelector("#rezultatas");
+        isvedimoElementas.innerHTML = skaiciuotuvas.sudetis(sk, sk1);
+    });
+
+        document.querySelector("#atimtis").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        var isvedimoElementas = document.querySelector("#rezultatas");
+        isvedimoElementas.innerHTML = skaiciuotuvas.atimtis(sk, sk1);
+    });
+
+        document.querySelector("#daugyba").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        var isvedimoElementas = document.querySelector("#rezultatas");
+        isvedimoElementas.innerHTML = skaiciuotuvas.sandauga(sk, sk1);
+    });
+
+        document.querySelector("#dalyba").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        var isvedimoElementas = document.querySelector("#rezultatas");
+        isvedimoElementas.innerHTML = skaiciuotuvas.dalyba(sk, sk1);
+    });
+
+        document.querySelector("#saknis").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        var isvedimoElementas = document.querySelector("#rezultatas");
+        isvedimoElementas.innerHTML = skaiciuotuvas.saknis(sk, sk1);
+    });
+
+        document.querySelector("#issaugok").addEventListener("click", function() {
+        var sk = parseFloat(document.querySelector("#sk").value);
+        var sk1 = parseFloat(document.querySelector("#sk1").value);
+        skaiciuotuvas.issaugok(sk, sk1);
+        
+        var atmintiesSkaiciai = document.querySelector("#skaiciai-atmintyje");
+
+        atmintiesSkaiciai.innerHTML += "Atmintyje skaiciai :" + skaiciuotuvas.a + " " + skaiciuotuvas.b + "<br>" ;
+
+    });
+
+        document.querySelector("#atmintis").addEventListener("click", function() {
+        
+        skaiciuotuvas.atmintis();
+
+            var statusas=document.querySelector("statusas");
+
+        });
+
+        if (skaiciuotuvas.rezimas==true) {
+            statusas.innerHTML="Atminties rezimas isjungtas";
+            statusas.classList.remove("zalia");
+        } else {
+            statusas.innerHTML="Atminties rezimas ijungtas";
+            statusas.classList.add("zalia");
+        }
+   
+
+       // document.querySelector("#issaugok").addEventListener("click", function() {
+            //var sk=parseFloat(document.querySelector("#sk").value);
+            //var sk1=parseFloat(document.querySelector("#sk1").value);
+            //var isvedimoElementas= document.querySelector("#rezultatas")
+           // isvedimoElementas.innerHTML=skaiciuotuvas.issaugok(sk,sk1);
+        ///});
+
+       // document.querySelector("#atmintis").addEventListener("click", function() {
+           // var sk=parseFloat(document.querySelector("#sk").value);
+           // var sk1=parseFloat(document.querySelector("#sk1").value);
+           // var isvedimoElementas= document.querySelector("#rezultatas")
+            //isvedimoElementas.innerHTML=skaiciuotuvas.sudetis(sk,sk1);
+        //});
+
+
+        //console.log (skaiciuotuvas.sudetis(10,15));
+        //console.log (skaiciuotuvas.atimtis(10,15));
+        //console.log (skaiciuotuvas.sandauga(10,15));
+        //console.log (skaiciuotuvas.dalyba(10,15));
+        //console.log (skaiciuotuvas.saknis(10,15));
+
+        //skaiciuotuvas.issaugok(10,15);
+        //console.log(skaiciuotuvas.a);
+        //console.log(skaiciuotuvas.b);
+
+        //console.log(skaiciuotuvas.sudetis(10,15));
+        //skaiciuotuvas.issaugok(100,200);
+       // skaiciuotuvas.atmintis();
+        //console.log(skaiciuotuvas.sudetis(10,15));
+        //skaiciuotuvas.atmintis();
+       // console.log(skaiciuotuvas.sudetis(10,15));
+
+
+    </script>
+    
+</body>
+</html>
